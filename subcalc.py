@@ -3,9 +3,6 @@ import os
 from array import *
 import re
 import subprocess
-import numpy as np
-
-
 
 #----------------------------------------------------
 #Main functions for displaying output, getting input and pinging
@@ -13,43 +10,53 @@ def calculate(adress):
     ip = '.'.join(map(str, adress[0:4]))
     mask = ip.join(map(str,adress[4:]))
 
-
-    print("\nIP Address: \t\t" + ip + "\t\t" + binary_to_string(ip_to_binary(adress)))
-    print("CIDR: \t\t\t" + mask + "\t\t\t" + binary_to_string(mask_to_binary(int(mask))))
-
     #network address
     net_addr = get_network_adress(ip_to_binary(adress), mask_to_binary(int(mask)))
     #broadcast address
     broad_addr = get_broadcast(ip_to_binary(adress), mask_to_binary(int(mask)))
 
-    print("Network adress \t\t" + binary_to_decimal(net_addr) + "\t\t" + binary_to_string(net_addr))
-    print("Network class: \t\t" + get_network_class(ip_to_binary(adress)))
-    print("Network type: \t\t" + pool_determination(adress[0:4]))
-    print("Network mask: \t\t" + binary_to_decimal(mask_to_binary(int(mask))) + "\t\t" + binary_to_string(mask_to_binary(int(mask))))
-    print("Broadcast address: \t" + binary_to_decimal(broad_addr) + "\t\t" + binary_to_string(broad_addr))
-    print("First host address: \t" + binary_to_decimal(get_first_host(net_addr)) + "\t\t" + binary_to_string(get_first_host(net_addr)))
-    print("Last host address: \t" + binary_to_decimal(get_last_host(broad_addr)) + "\t\t" + binary_to_string(get_last_host(broad_addr)))
-    print("Max number of hosts: \t" + get_max_hosts(mask_to_binary(int(mask))))
+    ip_content = "IP Address: \t\t" + ip + "\t\t" + binary_to_string(ip_to_binary(adress))
+    cidr = "CIDR: \t\t\t" + mask + "\t\t\t" + binary_to_string(mask_to_binary(int(mask)))
+    network_address = "Network adress \t\t" + binary_to_decimal(net_addr) + "\t\t" + binary_to_string(net_addr)
+    network_class = "Network class: \t\t" + get_network_class(ip_to_binary(adress))
+    network_type = "Network type: \t\t" + pool_determination(adress[0:4])
+    network_mask = "Network mask: \t\t" + binary_to_decimal(mask_to_binary(int(mask))) + "\t\t" + binary_to_string(mask_to_binary(int(mask)))
+    broadcast_address = "Broadcast address: \t" + binary_to_decimal(broad_addr) + "\t\t" + binary_to_string(broad_addr)
+    first_host_address = "First host address: \t" + binary_to_decimal(get_first_host(net_addr)) + "\t\t" + binary_to_string(get_first_host(net_addr))
+    last_host_address = "Last host address: \t" + binary_to_decimal(get_last_host(broad_addr)) + "\t\t" + binary_to_string(get_last_host(broad_addr))
+    max_host_number = "Max number of hosts: \t" + get_max_hosts(mask_to_binary(int(mask)))
+    
+    #print info on terminal
+    print("\n" + ip_content)
+    print(cidr)
+    print(network_address)
+    print(network_class)
+    print(network_type)
+    print(network_mask)
+    print(broadcast_address)
+    print(first_host_address)
+    print(last_host_address)
+    print(max_host_number)
 
     #adding output to list which is then utilized by write_output
     array_output = []
 
-    array_output.append("IP Address: \t\t" + ip + "\t\t" + binary_to_string(ip_to_binary(adress)) +"\n")
-    array_output.append("CIDR: \t\t\t" + mask + "\t\t\t" + binary_to_string(mask_to_binary(int(mask))))
-    array_output.append("Network adress \t\t" + binary_to_decimal(net_addr) + "\t\t" + binary_to_string(net_addr))
-    array_output.append("Network class: \t\t" + get_network_class(ip_to_binary(adress)))
-    array_output.append("Network type: \t\t" + pool_determination(adress[0:4]))
-    array_output.append("Network mask: \t\t" + binary_to_decimal(mask_to_binary(int(mask))) + "\t\t" + binary_to_string(mask_to_binary(int(mask))))
-    array_output.append("Broadcast address: \t" + binary_to_decimal(broad_addr) + "\t\t" + binary_to_string(broad_addr))
-    array_output.append("First host address: \t" + binary_to_decimal(get_first_host(net_addr)) + "\t\t" + binary_to_string(get_first_host(net_addr)))
-    array_output.append("Last host address: \t" + binary_to_decimal(get_last_host(broad_addr)) + "\t\t" + binary_to_string(get_last_host(broad_addr)))
-    array_output.append("Max number of hosts: \t" + get_max_hosts(mask_to_binary(int(mask))))
-
+    array_output.append(ip_content + "\n")
+    array_output.append(cidr + "\n")
+    array_output.append(network_address + "\n")
+    array_output.append(network_class + "\n")
+    array_output.append(network_type + "\n")
+    array_output.append(network_mask + "\n")
+    array_output.append(broadcast_address + "\n")
+    array_output.append(first_host_address + "\n")
+    array_output.append(last_host_address + "\n")
+    array_output.append(max_host_number + "\n")
+   
     write_output(array_output)
   
     if((ip != binary_to_decimal(net_addr)) and ip != binary_to_decimal(broad_addr)):
-        anwser = input("Do you want to ping this address? (y/n) ")
-        if anwser == 'y' or anwser == 'Y':
+        anwser = input("Do you want to ping this address? (y/n)")
+        if anwser == 'y':
            ping(ip)
 
 
